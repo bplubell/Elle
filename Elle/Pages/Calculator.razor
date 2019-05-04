@@ -1,0 +1,26 @@
+﻿@page "/calculator"
+
+<h1>Counter</h1>
+
+<p>Current value: @sum</p>
+
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text">A</span>
+    </div>
+    <input type="number" class="form-control" bind="@a" />
+</div>
+
+<div class="input-group">
+    <div class="input-group-prepend">
+        <span class="input-group-text">B</span>
+    </div>
+    <input type="number" class="form-control" bind="@b" />
+</div>
+
+@functions {
+    double a = 2;
+    double b = 4;
+    double sum => a + b;
+
+}
