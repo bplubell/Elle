@@ -1,26 +1,52 @@
 ﻿@page "/calculator"
+@using DynamicExpresso
 
-<h1>Counter</h1>
-
-<p>Current value: @sum</p>
+<h1>Your calculator</h1>
 
 <div class="input-group mb-3">
-    <div class="input-group-prepend">
-        <span class="input-group-text">A</span>
+    <input class="form-control" bind="@Expression" />
+    <div class="input-group-append">
+        <span class="input-group-text">Expression</span>
     </div>
-    <input type="number" class="form-control" bind="@a" />
+</div>
+
+<div class="alert alert-danger" role="alert" hidden=@(EvaluationError == string.Empty)>
+    @EvaluationError
 </div>
 
 <div class="input-group">
-    <div class="input-group-prepend">
-        <span class="input-group-text">B</span>
+    <input class="form-control" value="@Result" readonly />
+    <div class="input-group-append">
+        <span class="input-group-text">Result</span>
     </div>
-    <input type="number" class="form-control" bind="@b" />
 </div>
 
 @functions {
-    double a = 2;
-    double b = 4;
-    double sum => a + b;
+    Interpreter interpreter = new Interpreter();
+
+    string _expression = "0";
+
+    string Expression
+    {
+        get => _expression;
+        set
+        {
+            try
+            {
+                string result = interpreter.Eval(value).ToString();
+                _expression = value;
+                Result = result;
+                EvaluationError = string.Empty;
+            }
+            catch (Exception e)
+            {
+                EvaluationError = e.Message;
+                throw;
+            }
+        }
+    }
+    string Result { get; set; } = "0";
+
+    string EvaluationError = string.Empty;
 
 }
