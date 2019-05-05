@@ -1,4 +1,6 @@
 ﻿@page "/calculator"
+@using System.Linq
+@inject Blazor.Extensions.Storage.LocalStorage localStorage
 
 <h1>Your calculator</h1>
 
@@ -19,10 +21,18 @@
 }
 
 <input type="button" class="btn btn-primary" onclick="@AddExpression" value="Add expression" />
+<input type="button" class="btn btn-dark" onclick="@SaveLocal" value="Save" />
 
 
-@functions {
-    private List<Expression> Expressions { get; } = new List<Expression>();
+@functions {      
+    private readonly string _key = "expressions";
+
+    protected override async Task OnInitAsync()
+    {
+        Expressions = (await localStorage.GetItem<Expression[]>(_key)).ToList();
+    }
+
+    private List<Expression> Expressions { get; set; } = new List<Expression>();
 
     private void AddExpression() => Expressions.Add(new Expression());
 
@@ -32,6 +42,11 @@
     {
         return (!string.IsNullOrWhiteSpace(name)
             && Expressions.Count(ex => ex.Name == name) == 1);
+    }
+
+    private async void SaveLocal()
+    {
+        await localStorage.SetItem<Expression[]>(_key, Expressions.ToArray());
     }
 
     private class Expression
