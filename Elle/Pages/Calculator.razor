@@ -1,52 +1,25 @@
 ﻿@page "/calculator"
-@using DynamicExpresso
 
 <h1>Your calculator</h1>
 
 <div class="input-group mb-3">
-    <input class="form-control" bind="@Expression" />
+    <input class="form-control" bind="@calculator.Expression" />
     <div class="input-group-append">
         <span class="input-group-text">Expression</span>
     </div>
 </div>
 
-<div class="alert alert-danger" role="alert" hidden=@(EvaluationError == string.Empty)>
-    @EvaluationError
+<div class="alert alert-danger" role="alert" hidden=@(calculator.Error == string.Empty)>
+    @calculator.Error
 </div>
 
 <div class="input-group">
-    <input class="form-control" value="@Result" readonly />
+    <input class="form-control" value="@calculator.Result" readonly />
     <div class="input-group-append">
         <span class="input-group-text">Result</span>
     </div>
 </div>
 
 @functions {
-    Interpreter interpreter = new Interpreter();
-
-    string _expression = "0";
-
-    string Expression
-    {
-        get => _expression;
-        set
-        {
-            try
-            {
-                string result = interpreter.Eval(value).ToString();
-                _expression = value;
-                Result = result;
-                EvaluationError = string.Empty;
-            }
-            catch (Exception e)
-            {
-                EvaluationError = e.Message;
-                throw;
-            }
-        }
-    }
-    string Result { get; set; } = "0";
-
-    string EvaluationError = string.Empty;
-
+    Models.Calculator calculator = new Models.Calculator();
 }
