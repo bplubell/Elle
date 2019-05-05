@@ -2,7 +2,7 @@
 
 <h1>Your calculator</h1>
 
-@foreach (Expression expression in Expressions)
+@foreach ((Expression expression, int index) in Expressions.Select((value, i) => (value, i)))
 {
     <div class="row mb-3">
         <div class="col-3 variableName">
@@ -12,6 +12,9 @@
         <div class="col">
             <input type="text" class="form-control" bind="@expression.Value" />
         </div>
+        <button class="btn btn-danger" onclick="@(() => RemoveExpression(index))">
+            <span class="oi oi-trash d-flex align-items-center"></span>
+        </button>
     </div>
 }
 
@@ -22,6 +25,8 @@
     private List<Expression> Expressions { get; } = new List<Expression>();
 
     private void AddExpression() => Expressions.Add(new Expression());
+
+    private void RemoveExpression(int index) => Expressions.RemoveAt(index);
 
     private class Expression
     {
