@@ -6,7 +6,7 @@
 {
     <div class="row mb-3">
         <div class="col-3 variableName">
-            <input type="text" class="form-control @(string.IsNullOrWhiteSpace(expression.Name) ? "is-invalid" : "")" bind="@expression.Name" />
+            <input type="text" class="form-control @(ExpressionNameIsValid(expression.Name) ? "" : "is-invalid")" bind="@expression.Name" />
         </div>
         <span class="d-flex align-items-center" style="font-size: larger;">=</span>
         <div class="col">
@@ -27,6 +27,12 @@
     private void AddExpression() => Expressions.Add(new Expression());
 
     private void RemoveExpression(int index) => Expressions.RemoveAt(index);
+
+    private bool ExpressionNameIsValid(string name)
+    {
+        return (!string.IsNullOrWhiteSpace(name)
+            && Expressions.Count(ex => ex.Name == name) == 1);
+    }
 
     private class Expression
     {
