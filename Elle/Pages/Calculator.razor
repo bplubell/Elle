@@ -3,7 +3,7 @@
 <h1>Your calculator</h1>
 
 <div class="row mb-3">
-    <div class="col-3">
+    <div class="col-3 variableName">
         <input type="text" class="form-control @(string.IsNullOrWhiteSpace(Expression1Name) ? "is-invalid" : "")" bind="@Expression1Name" />
     </div>
     <span class="d-flex align-items-center" style="font-size: larger;">=</span>
