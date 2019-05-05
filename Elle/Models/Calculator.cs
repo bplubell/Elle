@@ -4,7 +4,7 @@ namespace Elle.Models
 {
     public class Calculator
     {
-        private string _expression = null;
+        private string _expression = "";
         private Interpreter _interpreter = new Interpreter()
             .EnableAssignment(AssignmentOperators.None);
 
@@ -27,8 +27,8 @@ namespace Elle.Models
             }
         }
     
-        public object Result { get; private set; } = null;
+        public object Result { get; private set; } = "";
 
-        public string Error { get; private set; } = string.Empty;
+        public string Error { get; private set; } = "";
     }
 }
