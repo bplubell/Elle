@@ -3,6 +3,14 @@
 @inject Blazor.Extensions.Storage.LocalStorage localStorage
 
 <h1>Your calculator</h1>
+<div class="row mb-3">
+    <div class="col">
+        <button class="btn btn-dark btn-lg" onclick="@SaveLocal">
+            <span class="oi oi-hard-drive align-items-center"></span>
+            Save
+        </button>
+    </div>
+</div>
 
 @foreach ((Expression expression, int index) in Expressions.Select((value, i) => (value, i)))
 {
@@ -20,8 +28,13 @@
     </div>
 }
 
-<input type="button" class="btn btn-primary" onclick="@AddExpression" value="Add expression" />
-<input type="button" class="btn btn-dark" onclick="@SaveLocal" value="Save" />
+<div class="row mb-3">
+    <div class="col">
+        <button class="btn btn-outline-primary" onclick="@AddExpression">
+            <span class="oi oi-plus d-flex align-items-center"></span>
+        </button>
+    </div>
+</div>
 
 
 @functions {      
