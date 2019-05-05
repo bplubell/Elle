@@ -5,9 +5,13 @@
 <h1>Your calculator</h1>
 <div class="row mb-3">
     <div class="col">
-        <button class="btn btn-dark btn-lg" onclick="@SaveLocal">
+        <button class="btn btn-dark " onclick="@SaveLocal">
             <span class="oi oi-hard-drive align-items-center"></span>
             Save
+        </button>
+        <button class="btn btn-danger ml-2" onclick="@Clear">
+            <span class="oi oi-circle-x align-items-center"></span>
+            Clear
         </button>
     </div>
 </div>
@@ -22,7 +26,7 @@
         <div class="col">
             <input type="text" class="form-control" bind="@expression.Value" />
         </div>
-        <button class="btn btn-danger" onclick="@(() => RemoveExpression(index))">
+        <button class="btn btn-outline-danger" onclick="@(() => RemoveExpression(index))">
             <span class="oi oi-trash d-flex align-items-center"></span>
         </button>
     </div>
@@ -50,6 +54,11 @@
     private void AddExpression() => Expressions.Add(new Expression());
 
     private void RemoveExpression(int index) => Expressions.RemoveAt(index);
+
+    private void Clear()
+    {
+        Expressions = new List<Expression>();
+    }
 
     private bool ExpressionNameIsValid(string name)
     {
