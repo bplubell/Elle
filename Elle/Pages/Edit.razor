@@ -3,6 +3,17 @@
 @inherits Elle.ViewModels.EditViewModel
 
 <h1>Your calculator name</h1>
+
+<p>Add expressions (using the "+" button) in the order that they should be evaluated.</p>
+<ul>
+    <li>Variable names cannot have spaces</li>
+    <li>Variable names are case sensitive</li>
+    <li>Only simple operations are supported (+, -, *, /, Math.Pow(), Math.Abs())</li>
+    <li>Results are only calculated when you click "Solve"</li>
+    <li>"Save" puts the expressions into your local browser storage</li>
+    <li>"Clear" removes all expressions, but does not save the change</li>
+</ul>
+
 <div class="row mb-3">
     <div class="col">
         <button class="btn btn-primary" onclick="@Solve">
@@ -18,6 +29,22 @@
             Clear
         </button>
     </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-3 variableName">
+        Variable name
+    </div>
+    <span class="d-flex align-items-center invisible" style="font-size: larger;">=</span>
+    <div class="col">
+        Expression
+    </div>
+    <div class="col-2">
+        Result
+    </div>
+    <button class="btn btn-outline-danger invisible">
+        <span class="oi oi-trash d-flex align-items-center"></span>
+    </button>
 </div>
 
 @foreach ((Expression expression, int index) in Expressions.Select((value, i) => (value, i)))
