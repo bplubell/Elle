@@ -1,6 +1,6 @@
 ﻿@page "/edit"
-@using System.Linq
-@inject Blazor.Extensions.Storage.LocalStorage localStorage
+@using Elle.Models
+@inherits Elle.ViewModels.EditViewModel
 
 <h1>Your calculator name</h1>
 <div class="row mb-3">
@@ -39,41 +39,3 @@
         </button>
     </div>
 </div>
-
-
-@functions {      
-    private readonly string _key = "expressions";
-
-    protected override async Task OnInitAsync()
-    {
-        Expressions = (await localStorage.GetItem<Expression[]>(_key)).ToList();
-    }
-
-    private List<Expression> Expressions { get; set; } = new List<Expression>();
-
-    private void AddExpression() => Expressions.Add(new Expression());
-
-    private void RemoveExpression(int index) => Expressions.RemoveAt(index);
-
-    private void Clear()
-    {
-        Expressions = new List<Expression>();
-    }
-
-    private bool ExpressionNameIsValid(string name)
-    {
-        return (!string.IsNullOrWhiteSpace(name)
-            && Expressions.Count(ex => ex.Name == name) == 1);
-    }
-
-    private async void SaveLocal()
-    {
-        await localStorage.SetItem<Expression[]>(_key, Expressions.ToArray());
-    }
-
-    private class Expression
-    {
-        public string Name { get; set; }
-        public string Value { get; set; } = "";
-    }
-}
