@@ -5,7 +5,11 @@
 <h1>Your calculator name</h1>
 <div class="row mb-3">
     <div class="col">
-        <button class="btn btn-dark " onclick="@SaveLocal">
+        <button class="btn btn-primary" onclick="@Solve">
+            <span class="oi oi-play-circle align-items-center"></span>
+            Solve
+        </button>
+        <button class="btn btn-dark ml-2" onclick="@SaveLocal">
             <span class="oi oi-hard-drive align-items-center"></span>
             Save
         </button>
@@ -25,6 +29,9 @@
         <span class="d-flex align-items-center" style="font-size: larger;">=</span>
         <div class="col">
             <input type="text" class="form-control" bind="@expression.Value" />
+        </div>
+        <div class="col-2">
+            <input type="text" class="form-control" bind="@expression.Result" readonly />
         </div>
         <button class="btn btn-outline-danger" onclick="@(() => RemoveExpression(index))">
             <span class="oi oi-trash d-flex align-items-center"></span>

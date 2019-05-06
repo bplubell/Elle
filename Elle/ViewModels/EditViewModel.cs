@@ -4,15 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Elle.Models;
+using DynamicExpresso;
 
 namespace Elle.ViewModels
 {
     public class EditViewModel : ComponentBase
     {
+        private readonly string _key = "expressions";
+
         [Inject]
         protected LocalStorage? LocalStorage { get; private set; }
-
-        private readonly string _key = "expressions";
 
         protected override async Task OnInitAsync()
         {
@@ -26,11 +27,33 @@ namespace Elle.ViewModels
 
         protected void AddExpression() => Expressions.Add(new Expression());
 
-        protected void RemoveExpression(int index) => Expressions.RemoveAt(index);
+        protected void RemoveExpression(int index)
+        {
+            Expressions.RemoveAt(index);
+        }
 
         protected void Clear()
         {
             Expressions = new List<Expression>();
+        }
+
+        protected void Solve()
+        {
+            Interpreter interpreter = new Interpreter()
+                .EnableAssignment(AssignmentOperators.None);
+
+            foreach (Expression expression in Expressions)
+            {
+                // Dependent on the order of the expressions; dependent expressions must come later
+                object result = interpreter.Eval(expression.Value);
+                expression.Result = result switch
+                {
+                    double doubleResult => doubleResult,
+                    int intResult => System.Convert.ToDouble(intResult),
+                    _ => 0
+                };
+                interpreter.SetVariable(expression.Name, expression.Result);
+            }
         }
 
         protected bool ExpressionNameIsValid(string name)
