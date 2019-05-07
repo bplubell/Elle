@@ -19,7 +19,11 @@ namespace Elle.ViewModels
         {
             if (LocalStorage != null)
             {
-                Expressions = (await LocalStorage.GetItem<Expression[]>(_key)).ToList();
+                Expression[] expressions = await LocalStorage.GetItem<Expression[]>(_key);
+                if (expressions != null)
+                {
+                    Expressions = expressions.ToList();
+                }
             }
         }
 
