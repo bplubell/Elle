@@ -8,7 +8,7 @@ using DynamicExpresso;
 
 namespace Elle.ViewModels
 {
-    public class EditViewModel : ComponentBase
+    public class CalculatorViewModel : ComponentBase
     {
         private readonly string _key = "expressions";
 
