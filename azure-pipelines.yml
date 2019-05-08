@@ -31,6 +31,11 @@ stages:
         publishWebProjects: True
         arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
         zipAfterPublish: True
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
 
 - stage: Deploy
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
@@ -39,9 +44,15 @@ stages:
     pool:
       vmImage: 'windows-2019'
     steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.ArtifactsDirectory)'
     - task: AzureRmWebAppDeployment@3
       displayName: 'Deploy'
       inputs:
         azureSubscription: $(azureSubscription)
         WebAppName: $(WebAppName)
-        Package: $(Build.ArtifactStagingDirectory)/**/*.zip
+        Package: '$(System.ArtifactsDirectory)/**/*.zip'
