@@ -4,34 +4,44 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- master
-
-pool:
-  vmImage: 'windows-2019'
+- main
+pr:
+- main
 
 variables:
   buildConfiguration: 'Release'
 
-steps:
-- task: DotNetCoreInstaller@0
-  displayName: 'Install dotnet core 3.0 SDK'
-  inputs:
-    version: '3.0.100-preview4-011223'
+stages:
+- stage: Build
+  jobs:
+  - job:
+    pool:
+      vmImage: 'windows-2019'
+    steps:
+    - task: DotNetCoreInstaller@0
+      displayName: 'Install dotnet core 3.0 SDK'
+      inputs:
+        version: '3.0.100-preview4-011223'
+    - script: dotnet build --configuration $(buildConfiguration)
+      displayName: 'Build $(buildConfiguration)'
+    - task: DotNetCoreCLI@2
+      displayName: 'Stage artifacts'
+      inputs:
+        command: publish
+        publishWebProjects: True
+        arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        zipAfterPublish: True
 
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'Build $(buildConfiguration)'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Stage artifacts'
-  inputs:
-    command: publish
-    publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
-
-- task: AzureRmWebAppDeployment@3
-  displayName: 'Deploy'
-  inputs:
-    azureSubscription: $(azureSubscription)
-    WebAppName: $(WebAppName)
-    Package: $(Build.ArtifactStagingDirectory)/**/*.zip
+- stage: Deploy
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  jobs:
+  - job:
+    pool:
+      vmImage: 'windows-2019'
+    steps:
+    - task: AzureRmWebAppDeployment@3
+      displayName: 'Deploy'
+      inputs:
+        azureSubscription: $(azureSubscription)
+        WebAppName: $(WebAppName)
+        Package: $(Build.ArtifactStagingDirectory)/**/*.zip
