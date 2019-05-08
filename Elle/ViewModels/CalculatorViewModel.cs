@@ -11,6 +11,16 @@ namespace Elle.ViewModels
     public class CalculatorViewModel : ComponentBase
     {
         private readonly string _key = "expressions";
+        private Calculator _calculator = new Calculator();
+
+        public CalculatorViewModel()
+        {
+        }
+
+        public CalculatorViewModel(Calculator calculator)
+        {
+            _calculator = calculator;
+        }
 
         [Inject]
         protected LocalStorage? LocalStorage { get; private set; }
@@ -27,19 +37,17 @@ namespace Elle.ViewModels
             }
         }
 
-        protected List<Expression> Expressions { get; set; } = new List<Expression>();
-
-        protected void AddExpression() => Expressions.Add(new Expression());
-
-        protected void RemoveExpression(int index)
+        protected List<Expression> Expressions
         {
-            Expressions.RemoveAt(index);
+            get => _calculator.Expressions;
+            set => _calculator.Expressions = value;
         }
 
-        protected void Clear()
-        {
-            Expressions = new List<Expression>();
-        }
+        protected void AddExpression() => _calculator.AddExpression();
+
+        protected void RemoveExpression(int index) => _calculator.RemoveExpression(index);
+
+        protected void Clear() => _calculator.Clear();
 
         protected void Solve()
         {
