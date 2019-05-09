@@ -11,7 +11,9 @@ namespace Elle.ViewModels
     public class CalculatorViewModel : ComponentBase
     {
         private readonly string _key = "expressions";
-        private Calculator _calculator = new Calculator();
+        
+        [Parameter]
+        public Calculator Calculator { get; set; } = new Calculator();
 
         public CalculatorViewModel()
         {
@@ -19,7 +21,7 @@ namespace Elle.ViewModels
 
         public CalculatorViewModel(Calculator calculator)
         {
-            _calculator = calculator;
+            Calculator = calculator;
         }
 
         [Inject]
@@ -39,15 +41,15 @@ namespace Elle.ViewModels
 
         protected List<Expression> Expressions
         {
-            get => _calculator.Expressions;
-            set => _calculator.Expressions = value;
+            get => Calculator.Expressions;
+            set => Calculator.Expressions = value;
         }
 
-        protected void AddExpression() => _calculator.AddExpression();
+        protected void AddExpression() => Calculator.AddExpression();
 
-        protected void RemoveExpression(int index) => _calculator.RemoveExpression(index);
+        protected void RemoveExpression(int index) => Calculator.RemoveExpression(index);
 
-        protected void Clear() => _calculator.Clear();
+        protected void Clear() => Calculator.Clear();
 
         protected void Solve()
         {

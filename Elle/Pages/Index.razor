@@ -25,12 +25,31 @@
         <h1>Elle</h1>
         <h5 class="text-muted">The configurable calculator</h5>
 
-        <Calculator />
+        <Calculator Calculator="@(Calculators[0])" />
 
     </div>
 </div>
 
 @functions {
+    List<Models.Calculator> Calculators = new List<Models.Calculator>() {
+        new Models.Calculator() {
+            Name = "Simple",
+            Expressions = new List<Models.Expression>() {
+                new Models.Expression() { Name = "a", Value = "3" },
+                new Models.Expression() { Name = "b", Value = "4" },
+                new Models.Expression() { Name = "c", Value = "2 * a + b" },
+            }
+        }
+    };
+
+    protected override async Task OnInitAsync()
+    {
+        foreach (Models.Calculator calculator in Calculators)
+        {
+            calculator.Solve();
+        }
+    }
+
     bool collapseNavMenu = true;
 
     string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
