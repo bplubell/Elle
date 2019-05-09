@@ -68,6 +68,19 @@ namespace Elle.ViewModels
 
         protected string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
+        protected void RemoveCalculator(Calculator calculator)
+        {
+            Calculators.Remove(calculator);
+            if (Calculators.Count == 0)
+            {
+                AddCalculator();
+            }
+            else
+            {
+                ActivateCalculator(Calculators.First());
+            }
+        }
+
         protected async void SaveLocal()
         {
             if (LocalStorage != null)

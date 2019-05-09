@@ -44,7 +44,12 @@
             <li>"Clear" removes all expressions, but does not save the change</li>
         </ul>
 
-        <h2>@ActiveCalculator.Name</h2>
+        <div class="row align-items-center">
+            <h2>@ActiveCalculator.Name</h2>
+            <button class="btn btn-outline-danger border-0 ml-2" onclick="@(() => RemoveCalculator(ActiveCalculator))">
+                <span class="oi oi-trash d-flex align-items-center"></span>
+            </button>
+        </div>
 
         <div class="row align-items-center mb-3">
             <span class="oi oi-pencil text-muted col-auto"></span>
