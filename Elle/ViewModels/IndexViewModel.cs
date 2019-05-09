@@ -1,13 +1,32 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Elle.Models;
+using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Elle.Models;
 
 namespace Elle.ViewModels
 {
     public class IndexViewModel : ComponentBase
     {
+        private bool _collapseNavMenu = true;
+
+        protected override async Task OnInitAsync()
+        {
+            ActiveCalculator = Calculators.FirstOrDefault();
+
+            foreach (Calculator calculator in Calculators)
+            {
+                calculator.Solve();
+            }
+        }
+
+        protected void ActivateCalculator(Calculator calculator)
+        {
+            ActiveCalculator = calculator;
+        }
+
+        protected Calculator ActiveCalculator { get; set; } = new Calculator();
+
         protected List<Calculator> Calculators = new List<Calculator>() {
             new Calculator() {
                 Name = "Simple",
@@ -29,30 +48,11 @@ namespace Elle.ViewModels
             },
         };
 
-        protected Calculator ActiveCalculator { get; set; } = new Calculator();
-
-        protected override async Task OnInitAsync()
-        {
-            ActiveCalculator = Calculators.FirstOrDefault();
-
-            foreach (Calculator calculator in Calculators)
-            {
-                calculator.Solve();
-            }
-        }
-
-        protected void ActivateCalculator(Calculator calculator)
-        {
-            ActiveCalculator = calculator;
-        }
-
-        protected bool collapseNavMenu = true;
-
-        protected string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+        protected string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
         protected void ToggleNavMenu()
         {
-            collapseNavMenu = !collapseNavMenu;
+            _collapseNavMenu = !_collapseNavMenu;
         }
     }
 }
