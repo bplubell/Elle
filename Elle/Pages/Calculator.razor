@@ -1,17 +1,7 @@
 ﻿@using Elle.Models
 @inherits Elle.ViewModels.CalculatorViewModel
 
-<h1>Your calculator name</h1>
-
-<p>Add expressions (using the "+" button) in the order that they should be evaluated.</p>
-<ul>
-    <li>Variable names cannot have spaces</li>
-    <li>Variable names are case sensitive</li>
-    <li>Only simple operations are supported (+, -, *, /, Math.Pow(), Math.Abs())</li>
-    <li>Results are only calculated when you click "Solve"</li>
-    <li>"Save" puts the expressions into your local browser storage</li>
-    <li>"Clear" removes all expressions, but does not save the change</li>
-</ul>
+<h2>@Name</h2>
 
 <div class="row mb-3">
     <div class="col">

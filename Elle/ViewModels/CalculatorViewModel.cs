@@ -13,7 +13,7 @@ namespace Elle.ViewModels
         private readonly string _key = "expressions";
         
         [Parameter]
-        public Calculator Calculator { get; set; } = new Calculator();
+        public Calculator Calculator { private get; set; } = new Calculator();
 
         public CalculatorViewModel()
         {
@@ -46,6 +46,8 @@ namespace Elle.ViewModels
         }
 
         protected void AddExpression() => Calculator.AddExpression();
+
+        protected string Name => Calculator.Name;
 
         protected void RemoveExpression(int index) => Calculator.RemoveExpression(index);
 

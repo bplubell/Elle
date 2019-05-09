@@ -10,11 +10,14 @@
 
     <div class="@NavMenuCssClass" onclick="@ToggleNavMenu">
         <ul class="nav flex-column">
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                    <span class="oi oi-calculator" aria-hidden="true"></span> Calculator
-                </NavLink>
-            </li>
+            @foreach (var item in Calculators)
+            {
+                <li class="nav-item px-3">
+                    <div class="nav-link" onclick="@(() => ActivateCalculator(item))">
+                        <span class="oi oi-calculator" aria-hidden="true"></span> @item.Name
+                    </div>
+                </li>
+            }
         </ul>
     </div>
 </div>
@@ -25,13 +28,23 @@
         <h1>Elle</h1>
         <h5 class="text-muted">The configurable calculator</h5>
 
-        <Calculator Calculator="@(Calculators[0])" />
+        <p>Add expressions (using the "+" button) in the order that they should be evaluated.</p>
+        <ul>
+            <li>Variable names cannot have spaces</li>
+            <li>Variable names are case sensitive</li>
+            <li>Only simple operations are supported (+, -, *, /, Math.Pow())</li>
+            <li>Results are only calculated when you click "Solve"</li>
+            <li>"Save" puts the expressions into your local browser storage</li>
+            <li>"Clear" removes all expressions, but does not save the change</li>
+        </ul>
+
+        <Calculator Calculator="@ActiveCalculator" />
 
     </div>
 </div>
 
 @functions {
-    List<Models.Calculator> Calculators = new List<Models.Calculator>() {
+    private List<Models.Calculator> Calculators = new List<Models.Calculator>() {
         new Models.Calculator() {
             Name = "Simple",
             Expressions = new List<Models.Expression>() {
@@ -39,15 +52,34 @@
                 new Models.Expression() { Name = "b", Value = "4" },
                 new Models.Expression() { Name = "c", Value = "2 * a + b" },
             }
-        }
+        },
+        new Models.Calculator() {
+            Name = "Circle info",
+            Expressions = new List<Models.Expression>() {
+                new Models.Expression() { Name = "PI", Value = "3.141592654" },
+                new Models.Expression() { Name = "diameter", Value = "3" },
+                new Models.Expression() { Name = "radius", Value = "diameter / 2" },
+                new Models.Expression() { Name = "perimeter", Value = "diameter * PI" },
+                new Models.Expression() { Name = "area", Value = "PI * Math.Pow(radius, 2)" },
+            }
+        },
     };
+
+    private Models.Calculator ActiveCalculator { get; set; } = new Models.Calculator();
 
     protected override async Task OnInitAsync()
     {
+        ActiveCalculator = Calculators.FirstOrDefault();
+
         foreach (Models.Calculator calculator in Calculators)
         {
             calculator.Solve();
         }
+    }
+
+    private void ActivateCalculator(Models.Calculator calculator)
+    {
+        ActiveCalculator = calculator;
     }
 
     bool collapseNavMenu = true;
