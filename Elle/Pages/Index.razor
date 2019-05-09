@@ -42,6 +42,7 @@
             <li>Results are only calculated when you click "Solve"</li>
             <li>"Save" puts the expressions into your local browser storage</li>
             <li>"Clear" removes all expressions, but does not save the change</li>
+            <li>Deleting a calculator does not delete it from local storage; save to persist the change</li>
         </ul>
 
         <div class="row align-items-center">
@@ -64,7 +65,7 @@
                 </button>
                 <button class="btn btn-dark ml-2" onclick="@SaveLocal">
                     <span class="oi oi-hard-drive align-items-center"></span>
-                    Save
+                    Save all
                 </button>
                 <button class="btn btn-danger ml-2" onclick="@ActiveCalculator.Clear">
                     <span class="oi oi-circle-x align-items-center"></span>
