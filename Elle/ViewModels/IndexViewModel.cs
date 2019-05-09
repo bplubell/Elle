@@ -1,4 +1,5 @@
-﻿using Elle.Models;
+﻿using Blazor.Extensions.Storage;
+using Elle.Models;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +9,34 @@ namespace Elle.ViewModels
 {
     public class IndexViewModel : ComponentBase
     {
+        private readonly string _storageKey = "calculators";
         private bool _collapseNavMenu = true;
 
         protected override async Task OnInitAsync()
         {
-            ActiveCalculator = Calculators.FirstOrDefault();
-
-            foreach (Calculator calculator in Calculators)
+            if (LocalStorage != null)
             {
-                calculator.Solve();
+                Calculator[] calculators = await LocalStorage.GetItem<Calculator[]>(_storageKey);
+                if (calculators != null)
+                {
+                    foreach (Calculator calculator in calculators)
+                    {
+                        Calculator currentCalculator = Calculators.FirstOrDefault(c => c.Id == calculator.Id);
+                        if (currentCalculator != null)
+                            currentCalculator = calculator;
+                        else
+                            Calculators.Add(calculator);
+                    }
+                }
             }
+
+            ActivateCalculator(Calculators.FirstOrDefault());
         }
 
         protected void ActivateCalculator(Calculator calculator)
         {
             ActiveCalculator = calculator;
+            ActiveCalculator.Solve();
         }
 
         protected Calculator ActiveCalculator { get; set; } = new Calculator();
@@ -47,6 +61,9 @@ namespace Elle.ViewModels
                 }
             },
         };
+
+        [Inject]
+        protected LocalStorage? LocalStorage { get; private set; }
 
         protected string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
