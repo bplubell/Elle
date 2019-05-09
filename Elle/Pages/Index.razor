@@ -13,7 +13,7 @@
             @foreach (var item in Calculators)
             {
                 <li class="nav-item px-3">
-                    <div class="nav-link" onclick="@(() => ActivateCalculator(item))">
+                    <div class="nav-link @(ActiveCalculator == item ? "active" : null)" onclick="@(() => ActivateCalculator(item))">
                         <span class="oi oi-calculator" aria-hidden="true"></span> @item.Name
                     </div>
                 </li>
