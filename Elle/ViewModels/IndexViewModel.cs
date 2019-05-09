@@ -35,6 +35,13 @@ namespace Elle.ViewModels
 
         protected Calculator ActiveCalculator { get; set; } = new Calculator();
 
+        protected void AddCalculator()
+        {
+            Calculator newCalculator = new Calculator() { Name = "New calculator" };
+            Calculators.Add(newCalculator);
+            ActivateCalculator(newCalculator);
+        }
+
         protected List<Calculator> Calculators = new List<Calculator>() {
             new Calculator() {
                 Name = "Simple",
