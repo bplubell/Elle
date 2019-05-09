@@ -19,14 +19,8 @@ namespace Elle.ViewModels
                 Calculator[] calculators = await LocalStorage.GetItem<Calculator[]>(_storageKey);
                 if (calculators != null)
                 {
-                    foreach (Calculator calculator in calculators)
-                    {
-                        Calculator currentCalculator = Calculators.FirstOrDefault(c => c.Id == calculator.Id);
-                        if (currentCalculator != null)
-                            currentCalculator = calculator;
-                        else
-                            Calculators.Add(calculator);
-                    }
+                    Calculators.RemoveAll(c => calculators.Any(s => s.Name == c.Name));
+                    Calculators.AddRange(calculators);
                 }
             }
 
@@ -66,6 +60,14 @@ namespace Elle.ViewModels
         protected LocalStorage? LocalStorage { get; private set; }
 
         protected string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
+
+        protected async void SaveLocal()
+        {
+            if (LocalStorage != null)
+            {
+                await LocalStorage.SetItem<Calculator[]>(_storageKey, Calculators.ToArray());
+            }
+        }
 
         protected void ToggleNavMenu()
         {

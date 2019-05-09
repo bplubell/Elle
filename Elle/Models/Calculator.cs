@@ -17,8 +17,6 @@ namespace Elle.Models
 
         public string? Name { get; set; }
 
-        public Guid Id { get; } = new Guid();
-
         public void RemoveExpression(int index)
         {
             Expressions.RemoveAt(index);

@@ -1,25 +1,6 @@
 ﻿@using Elle.Models
 @inherits Elle.ViewModels.CalculatorViewModel
 
-<h2>@Name</h2>
-
-<div class="row mb-3">
-    <div class="col">
-        <button class="btn btn-primary" onclick="@Solve">
-            <span class="oi oi-play-circle align-items-center"></span>
-            Solve
-        </button>
-        <button class="btn btn-dark ml-2" onclick="@SaveLocal">
-            <span class="oi oi-hard-drive align-items-center"></span>
-            Save
-        </button>
-        <button class="btn btn-danger ml-2" onclick="@Clear">
-            <span class="oi oi-circle-x align-items-center"></span>
-            Clear
-        </button>
-    </div>
-</div>
-
 <div class="row mb-3">
     <div class="col-3 variableName">
         Variable name
