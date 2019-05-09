@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inherits Elle.ViewModels.IndexViewModel
 
 <div class="sidebar">
     <div class="top-row pl-4 navbar navbar-dark">
@@ -42,52 +43,3 @@
 
     </div>
 </div>
-
-@functions {
-    private List<Models.Calculator> Calculators = new List<Models.Calculator>() {
-        new Models.Calculator() {
-            Name = "Simple",
-            Expressions = new List<Models.Expression>() {
-                new Models.Expression() { Name = "a", Value = "3" },
-                new Models.Expression() { Name = "b", Value = "4" },
-                new Models.Expression() { Name = "c", Value = "2 * a + b" },
-            }
-        },
-        new Models.Calculator() {
-            Name = "Circle info",
-            Expressions = new List<Models.Expression>() {
-                new Models.Expression() { Name = "PI", Value = "3.141592654" },
-                new Models.Expression() { Name = "diameter", Value = "3" },
-                new Models.Expression() { Name = "radius", Value = "diameter / 2" },
-                new Models.Expression() { Name = "perimeter", Value = "diameter * PI" },
-                new Models.Expression() { Name = "area", Value = "PI * Math.Pow(radius, 2)" },
-            }
-        },
-    };
-
-    private Models.Calculator ActiveCalculator { get; set; } = new Models.Calculator();
-
-    protected override async Task OnInitAsync()
-    {
-        ActiveCalculator = Calculators.FirstOrDefault();
-
-        foreach (Models.Calculator calculator in Calculators)
-        {
-            calculator.Solve();
-        }
-    }
-
-    private void ActivateCalculator(Models.Calculator calculator)
-    {
-        ActiveCalculator = calculator;
-    }
-
-    bool collapseNavMenu = true;
-
-    string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
