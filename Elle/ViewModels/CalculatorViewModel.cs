@@ -8,9 +8,21 @@ using DynamicExpresso;
 
 namespace Elle.ViewModels
 {
-    public class EditViewModel : ComponentBase
+    public class CalculatorViewModel : ComponentBase
     {
         private readonly string _key = "expressions";
+        
+        [Parameter]
+        public Calculator Calculator { private get; set; } = new Calculator();
+
+        public CalculatorViewModel()
+        {
+        }
+
+        public CalculatorViewModel(Calculator calculator)
+        {
+            Calculator = calculator;
+        }
 
         [Inject]
         protected LocalStorage? LocalStorage { get; private set; }
@@ -27,19 +39,19 @@ namespace Elle.ViewModels
             }
         }
 
-        protected List<Expression> Expressions { get; set; } = new List<Expression>();
-
-        protected void AddExpression() => Expressions.Add(new Expression());
-
-        protected void RemoveExpression(int index)
+        protected List<Expression> Expressions
         {
-            Expressions.RemoveAt(index);
+            get => Calculator.Expressions;
+            set => Calculator.Expressions = value;
         }
 
-        protected void Clear()
-        {
-            Expressions = new List<Expression>();
-        }
+        protected void AddExpression() => Calculator.AddExpression();
+
+        protected string Name => Calculator.Name;
+
+        protected void RemoveExpression(int index) => Calculator.RemoveExpression(index);
+
+        protected void Clear() => Calculator.Clear();
 
         protected void Solve()
         {

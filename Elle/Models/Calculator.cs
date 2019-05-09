@@ -1,34 +1,44 @@
 using DynamicExpresso;
+using System;
+using System.Collections.Generic;
 
 namespace Elle.Models
 {
     public class Calculator
     {
-        private string _expression = "";
-        private Interpreter _interpreter = new Interpreter()
-            .EnableAssignment(AssignmentOperators.None);
+        public List<Expression> Expressions { get; set; } = new List<Expression>();
 
-        public string Expression
+        public void AddExpression() => Expressions.Add(new Expression());
+
+        public void Clear()
         {
-            get => _expression;
-            set
+            Expressions = new List<Expression>();
+        }
+
+        public string? Name { get; set; }
+
+        public void RemoveExpression(int index)
+        {
+            Expressions.RemoveAt(index);
+        }
+
+        public void Solve()
+        {
+            Interpreter interpreter = new Interpreter()
+                .EnableAssignment(AssignmentOperators.None);
+
+            foreach (Expression expression in Expressions)
             {
-                try
+                // Dependent on the order of the expressions; dependent expressions must come later
+                object result = interpreter.Eval(expression.Value);
+                expression.Result = result switch
                 {
-                    object result = _interpreter.Eval(value);
-                    _expression = value;
-                    Result = result;
-                    Error = string.Empty;
-                }
-                catch (System.Exception e)
-                {
-                    Error = e.Message;
-                }
+                    double doubleResult => doubleResult,
+                    int intResult => System.Convert.ToDouble(intResult),
+                    _ => 0
+                };
+                interpreter.SetVariable(expression.Name, expression.Result);
             }
         }
-    
-        public object Result { get; private set; } = "";
-
-        public string Error { get; private set; } = "";
     }
 }

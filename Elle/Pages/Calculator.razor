@@ -1,35 +1,5 @@
-﻿@page "/edit"
-@using Elle.Models
-@inherits Elle.ViewModels.EditViewModel
-
-<h1>Your calculator name</h1>
-
-<p>Add expressions (using the "+" button) in the order that they should be evaluated.</p>
-<ul>
-    <li>Variable names cannot have spaces</li>
-    <li>Variable names are case sensitive</li>
-    <li>Only simple operations are supported (+, -, *, /, Math.Pow(), Math.Abs())</li>
-    <li>Results are only calculated when you click "Solve"</li>
-    <li>"Save" puts the expressions into your local browser storage</li>
-    <li>"Clear" removes all expressions, but does not save the change</li>
-</ul>
-
-<div class="row mb-3">
-    <div class="col">
-        <button class="btn btn-primary" onclick="@Solve">
-            <span class="oi oi-play-circle align-items-center"></span>
-            Solve
-        </button>
-        <button class="btn btn-dark ml-2" onclick="@SaveLocal">
-            <span class="oi oi-hard-drive align-items-center"></span>
-            Save
-        </button>
-        <button class="btn btn-danger ml-2" onclick="@Clear">
-            <span class="oi oi-circle-x align-items-center"></span>
-            Clear
-        </button>
-    </div>
-</div>
+﻿@using Elle.Models
+@inherits Elle.ViewModels.CalculatorViewModel
 
 <div class="row mb-3">
     <div class="col-3 variableName">
