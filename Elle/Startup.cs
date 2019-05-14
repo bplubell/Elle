@@ -10,7 +10,7 @@ namespace Elle
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddStorage();
-            services.AddTransient(typeof(IStorage), typeof(Storage));
+            services.AddTransient(typeof(IStorage), typeof(ClientStorage));
         }
 
         public void Configure(IComponentsApplicationBuilder app)

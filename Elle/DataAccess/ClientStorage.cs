@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Elle.DataAccess
 {
-    public class Storage : IStorage
+    public class ClientStorage : IStorage
     {
         private readonly string _storageKey = "calculators";
         private readonly LocalStorage _localStorage;
 
-        public Storage(LocalStorage localStorage)
+        public ClientStorage(LocalStorage localStorage)
         {
             _localStorage = localStorage;
         }
