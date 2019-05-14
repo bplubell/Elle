@@ -10,8 +10,6 @@ namespace Elle.ViewModels
 {
     public class CalculatorViewModel : ComponentBase
     {
-        private readonly string _key = "expressions";
-        
         [Parameter]
         public Calculator Calculator { private get; set; } = new Calculator();
 
@@ -22,21 +20,6 @@ namespace Elle.ViewModels
         public CalculatorViewModel(Calculator calculator)
         {
             Calculator = calculator;
-        }
-
-        [Inject]
-        protected LocalStorage? LocalStorage { get; private set; }
-
-        protected override async Task OnInitAsync()
-        {
-            if (LocalStorage != null)
-            {
-                Expression[] expressions = await LocalStorage.GetItem<Expression[]>(_key);
-                if (expressions != null)
-                {
-                    Expressions = expressions.ToList();
-                }
-            }
         }
 
         protected List<Expression> Expressions
@@ -78,13 +61,6 @@ namespace Elle.ViewModels
                 && Expressions.Count(ex => ex.Name == name) == 1);
         }
 
-        protected async void SaveLocal()
-        {
-            if (LocalStorage != null)
-            {
-                await LocalStorage.SetItem<Expression[]>(_key, Expressions.ToArray());
-            }
-        }
 
     }
 }
