@@ -1,5 +1,4 @@
-﻿using Blazor.Extensions.Storage;
-using Elle.Models;
+﻿using Elle.Models;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +8,26 @@ namespace Elle.ViewModels
 {
     public class IndexViewModel : ComponentBase
     {
-        private readonly string _storageKey = "calculators";
         private bool _collapseNavMenu = true;
 
         protected override async Task OnInitAsync()
         {
-            if (LocalStorage != null)
+            if (Storage != null)
             {
-                Calculator[] calculators = await LocalStorage.GetItem<Calculator[]>(_storageKey);
-                if (calculators != null)
+                try
                 {
-                    Calculators.RemoveAll(c => calculators.Any(s => s.Name == c.Name));
-                    Calculators.AddRange(calculators);
+                    IReadOnlyList<Calculator> calculators = await Storage.LoadCalculatorsAsync();
+                    if (calculators != null)
+                    {
+                        Calculators.RemoveAll(c => calculators.Any(s => s.Name == c.Name));
+                        Calculators.AddRange(calculators);
+                    }
+                }
+                catch (System.Exception e)
+                {
+                    System.Console.WriteLine("Something went wrong trying to load calculators from storage.");
+                    System.Console.WriteLine(e);
+                    // TODO Log error loading, maybe even let the user know
                 }
             }
 
@@ -64,7 +71,7 @@ namespace Elle.ViewModels
         };
 
         [Inject]
-        protected LocalStorage? LocalStorage { get; private set; }
+        protected IStorage? Storage { get; private set; }
 
         protected string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
@@ -83,9 +90,18 @@ namespace Elle.ViewModels
 
         protected async void SaveLocal()
         {
-            if (LocalStorage != null)
+            if (Storage != null)
             {
-                await LocalStorage.SetItem<Calculator[]>(_storageKey, Calculators.ToArray());
+                try
+                {
+                    await Storage.SaveCalculatorsAsync(Calculators.ToArray());
+                }
+                catch (System.Exception e)
+                {
+                    System.Console.WriteLine("Something went wrong trying to save calculators to storage.");
+                    System.Console.WriteLine(e);
+                    // TODO Log error loading, maybe even let the user know
+                }
             }
         }
 
