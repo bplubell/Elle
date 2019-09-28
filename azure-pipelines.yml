@@ -18,12 +18,14 @@ stages:
     pool:
       vmImage: 'windows-2019'
     steps:
-    - task: DotNetCoreInstaller@0
-      displayName: 'Install dotnet core 3.0 SDK'
+    - task: UseDotNet@2
       inputs:
+        packageType: 'sdk'
         version: '3.0'
-    - script: dotnet build --configuration $(buildConfiguration)
-      displayName: 'Build $(buildConfiguration)'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        arguments: '--configuration $(BuildConfiguration)'
     - task: DotNetCoreCLI@2
       displayName: 'Stage artifacts'
       inputs:
