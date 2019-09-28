@@ -10,7 +10,7 @@ namespace Elle.ViewModels
     {
         private bool _collapseNavMenu = true;
 
-        protected override async Task OnInitAsync()
+        protected override async Task OnInitializedAsync()
         {
             if (Storage != null)
             {

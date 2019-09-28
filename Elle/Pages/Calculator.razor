@@ -21,16 +21,16 @@
 {
     <div class="row mb-3">
         <div class="col-3 variableName">
-            <input type="text" class="form-control @(ExpressionNameIsValid(expression.Name) ? "" : "is-invalid")" bind="@expression.Name" />
+            <input type="text" class="form-control @(ExpressionNameIsValid(expression.Name) ? "" : "is-invalid")" @bind="@expression.Name" />
         </div>
         <span class="d-flex align-items-center" style="font-size: larger;">=</span>
         <div class="col">
-            <input type="text" class="form-control" bind="@expression.Value" />
+            <input type="text" class="form-control" @bind="@expression.Value" />
         </div>
         <div class="col-2">
-            <input type="text" class="form-control" bind="@expression.Result" readonly />
+            <input type="text" class="form-control" @bind="@expression.Result" readonly />
         </div>
-        <button class="btn btn-outline-danger" onclick="@(() => RemoveExpression(index))">
+        <button class="btn btn-outline-danger" @onclick="@(() => RemoveExpression(index))">
             <span class="oi oi-trash d-flex align-items-center"></span>
         </button>
     </div>
@@ -38,7 +38,7 @@
 
 <div class="row mb-3">
     <div class="col">
-        <button class="btn btn-outline-primary" onclick="@AddExpression">
+        <button class="btn btn-outline-primary" @onclick="@AddExpression">
             <span class="oi oi-plus d-flex align-items-center"></span>
         </button>
     </div>

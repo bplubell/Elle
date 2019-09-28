@@ -21,7 +21,7 @@ stages:
     - task: DotNetCoreInstaller@0
       displayName: 'Install dotnet core 3.0 SDK'
       inputs:
-        version: '3.0.100-preview4-011223'
+        version: '3.0'
     - script: dotnet build --configuration $(buildConfiguration)
       displayName: 'Build $(buildConfiguration)'
     - task: DotNetCoreCLI@2
