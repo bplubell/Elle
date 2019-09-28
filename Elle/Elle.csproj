@@ -6,6 +6,9 @@
     <LangVersion>8.0</LangVersion>
     <NullableContextOptions>enable</NullableContextOptions>
     <RazorLangVersion>3.0</RazorLangVersion>
+    <!-- Temporary fix for same error message as https://github.com/mono/mono/issues/16063#issuecomment-521511990 -->
+    <!-- Also means that reflection works with System.Math, making more functions available for the expressions! -->
+    <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
