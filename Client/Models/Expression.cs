@@ -1,4 +1,4 @@
-﻿namespace Elle.Models
+﻿namespace Elle.Client.Models
 {
     public class Expression
     {

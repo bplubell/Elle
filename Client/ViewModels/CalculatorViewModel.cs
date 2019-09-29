@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System.Linq;
 using System.Collections.Generic;
-using Elle.Models;
+using Elle.Client.Models;
 using DynamicExpresso;
 
-namespace Elle.ViewModels
+namespace Elle.Client.ViewModels
 {
     public class CalculatorViewModel : ComponentBase
     {

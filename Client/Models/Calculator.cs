@@ -2,7 +2,7 @@ using DynamicExpresso;
 using System;
 using System.Collections.Generic;
 
-namespace Elle.Models
+namespace Elle.Client.Models
 {
     public class Calculator
     {
