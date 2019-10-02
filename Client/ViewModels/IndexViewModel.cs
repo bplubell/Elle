@@ -63,7 +63,7 @@ namespace Elle.Client.ViewModels
                 Expressions = new List<Expression>() {
                     new Expression() { Name = "diameter", Value = "3" },
                     new Expression() { Name = "radius", Value = "diameter / 2" },
-                    new Expression() { Name = "perimeter", Value = "diameter * PI" },
+                    new Expression() { Name = "perimeter", Value = "diameter * Math.PI" },
                     new Expression() { Name = "area", Value = "Math.PI * Math.Pow(radius, 2)" },
                 }
             },
