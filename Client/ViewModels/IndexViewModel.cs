@@ -1,10 +1,10 @@
-﻿using Elle.Models;
+﻿using Elle.Client.Models;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Elle.ViewModels
+namespace Elle.Client.ViewModels
 {
     public class IndexViewModel : ComponentBase
     {

@@ -1,9 +1,9 @@
 using Blazor.Extensions.Storage;
-using Elle.DataAccess;
+using Elle.Client.DataAccess;
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Elle
+namespace Elle.Client
 {
     public class Startup
     {
