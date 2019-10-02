@@ -32,7 +32,12 @@ namespace Elle.Server
                 app.UseDeveloperExceptionPage();
                 app.UseBlazorDebugging();
             }
+            else
+            {
+                app.UseHsts();
+            }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseClientSideBlazorFiles<Elle.Client.Startup>();
 
