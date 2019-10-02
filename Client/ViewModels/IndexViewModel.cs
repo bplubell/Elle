@@ -61,11 +61,10 @@ namespace Elle.Client.ViewModels
             new Calculator() {
                 Name = "Circle info",
                 Expressions = new List<Expression>() {
-                    new Expression() { Name = "PI", Value = "3.141592654" },
                     new Expression() { Name = "diameter", Value = "3" },
                     new Expression() { Name = "radius", Value = "diameter / 2" },
                     new Expression() { Name = "perimeter", Value = "diameter * PI" },
-                    new Expression() { Name = "area", Value = "PI * Math.Pow(radius, 2)" },
+                    new Expression() { Name = "area", Value = "Math.PI * Math.Pow(radius, 2)" },
                 }
             },
         };
