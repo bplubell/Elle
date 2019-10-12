@@ -14,7 +14,7 @@ steps:
     displayName: 'Stage artifacts'
     inputs:
       command: publish
-      publishWebProjects: false
+      publishWebProjects: true
       arguments: './Server/Elle.Server.csproj --configuration Release --runtime linux-x64 --self-contained --output $(Build.ArtifactStagingDirectory)'
       zipAfterPublish: true
 
