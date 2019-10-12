@@ -18,6 +18,13 @@ steps:
       arguments: '--configuration Release --runtime linux-x64 --self-contained --output $(Build.ArtifactStagingDirectory)'
       zipAfterPublish: True
 
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish artifacts'
+    inputs:
+      ArtifactName: 'elle-$(Build.BuildNumber)'
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      publishLocation: 'Container'
+
   - task: AzureRmWebAppDeployment@4
     displayName: 'Deploy'
     inputs:
