@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+    <RuntimeIdentifiers>win-x86;linux-x64</RuntimeIdentifiers>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
