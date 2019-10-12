@@ -3,27 +3,25 @@ trigger:
 pr:
 - main
 
-stages:
-- stage:
-  jobs:
-  - job:
-    steps:
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: 'restore'
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: 'build'
-          arguments: '--configuration Release'
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: 'publish'
-          publishWebProjects: false
-          arguments: '--configuration Release --runtime linux-x64 --self-contained --output $(Build.ArtifactStagingDirectory)'
-          zipAfterPublish: true
-      - task: AzureRmWebAppDeployment@4
-        inputs:
-          ConnectionType: 'AzureRM'
-          azureSubscription: 'azureConnection'
-          WebAppName: ellecal
-          packageForLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+  - script: dotnet build --configuration $(buildConfiguration)
+    displayName: 'Build $(buildConfiguration)'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Stage artifacts'
+    inputs:
+      command: publish
+      publishWebProjects: True
+      arguments: '--configuration Release --runtime linux-x64 --self-contained --output $(Build.ArtifactStagingDirectory)'
+      zipAfterPublish: True
+
+  - task: AzureRmWebAppDeployment@4
+    displayName: 'Deploy'
+    inputs:
+      ConnectionType: 'AzureRM'
+      azureSubscription: 'azureConnection'
+      WebAppName: $(TestWebAppName)
+      packageForLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
