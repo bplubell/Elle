@@ -14,9 +14,9 @@ steps:
     displayName: 'Stage artifacts'
     inputs:
       command: publish
-      publishWebProjects: True
+      publishWebProjects: false
       arguments: '--configuration Release --runtime linux-x64 --self-contained --output $(Build.ArtifactStagingDirectory)'
-      zipAfterPublish: True
+      zipAfterPublish: true
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish artifacts'
