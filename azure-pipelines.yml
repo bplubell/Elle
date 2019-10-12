@@ -1,5 +1,6 @@
 trigger:
 - main
+- no-docker-deploy
 pr:
 - main
 
@@ -8,16 +9,22 @@ stages:
   jobs:
   - job:
     steps:
-      - task: Docker@2
-        displayName: Login to container registry
+      - task: DotNetCoreCLI@2
         inputs:
-          containerRegistry: $(containerRegistry)
-          command: 'login'
-      - task: Docker@2
-        displayName: Build and push
+          command: 'restore'
+      - task: DotNetCoreCLI@2
         inputs:
-          command: 'buildAndPush'
-          repository: elle
-          tags: |
-            latest
-            $(Build.BuildId)
+          command: 'build'
+          arguments: '--configuration Release'
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'publish'
+          publishWebProjects: true
+          arguments: '--configuration Release --runtime win-x86 --self-contained --output $(Build.ArtifactStagingDirectory)'
+          zipAfterPublish: true
+      - task: AzureRmWebAppDeployment@4
+        inputs:
+          ConnectionType: 'AzureRM'
+          azureSubscription: 'azureConnection'
+          WebAppName: ellecal
+          packageForLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
