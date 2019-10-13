@@ -18,15 +18,17 @@
         <ul class="nav flex-column">
             @foreach (var item in Calculators)
             {
-                <li class="nav-item px-3">
+                <li class="nav-item px-3 col">
                     <div class="nav-link @(ActiveCalculator == item ? "active" : null)" @onclick="@(() => ActivateCalculator(item))">
-                        <span class="oi oi-calculator" aria-hidden="true"></span> @item.Name
+                        <span class="oi oi-calculator" aria-hidden="true"></span>
+                        <span class="d-block text-truncate col">@item.Name</span>
                     </div>
                 </li>
             }
             <li class="nav-item px-3">
                 <div class="nav-link" @onclick="@(AddCalculator)">
-                    <span class="oi oi-plus" aria-hidden="true"></span> New calculator
+                    <span class="oi oi-plus" aria-hidden="true"></span>
+                    <span class="d-block text-truncate col">New calculator</span>
                 </div>
             </li>
         </ul>
@@ -49,35 +51,6 @@
             <li>"Clear" removes all expressions, but does not save the change</li>
             <li>Deleting a calculator does not delete it from local storage; save to persist the change</li>
         </ul>
-
-        <div class="row align-items-center">
-            <h2>@ActiveCalculator.Name</h2>
-            <button class="btn btn-outline-danger border-0 ml-2" @onclick="@(() => RemoveCalculator(ActiveCalculator))">
-                <span class="oi oi-trash d-flex align-items-center"></span>
-            </button>
-        </div>
-
-        <div class="row align-items-center mb-3">
-            <span class="oi oi-pencil text-muted col-auto"></span>
-            <input class="form-control col border-0" type="text" @bind="@ActiveCalculator.Name" />
-        </div>
-
-        <div class="row mb-3">
-            <div class="col">
-                <button class="btn btn-primary" @onclick="@ActiveCalculator.Solve">
-                    <span class="oi oi-play-circle align-items-center"></span>
-                    Solve
-                </button>
-                <button class="btn btn-dark ml-2" @onclick="@SaveLocal">
-                    <span class="oi oi-hard-drive align-items-center"></span>
-                    Save all
-                </button>
-                <button class="btn btn-danger ml-2" @onclick="@ActiveCalculator.Clear">
-                    <span class="oi oi-circle-x align-items-center"></span>
-                    Clear
-                </button>
-            </div>
-        </div>
 
         <Calculator Calculator="@ActiveCalculator" />
 
