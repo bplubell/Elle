@@ -38,24 +38,7 @@ namespace Elle.Client.ViewModels
 
         protected void Clear() => Calculator.Clear();
 
-        protected void Solve()
-        {
-            Interpreter interpreter = new Interpreter()
-                .EnableAssignment(AssignmentOperators.None);
-
-            foreach (Expression expression in Expressions)
-            {
-                // Dependent on the order of the expressions; dependent expressions must come later
-                object result = interpreter.Eval(expression.Value);
-                expression.Result = result switch
-                {
-                    double doubleResult => doubleResult,
-                    int intResult => System.Convert.ToDouble(intResult),
-                    _ => 0
-                };
-                interpreter.SetVariable(expression.Name, expression.Result);
-            }
-        }
+        protected void Solve() => Calculator.Solve();
 
         protected bool ExpressionNameIsValid(string name)
         {
