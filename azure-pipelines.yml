@@ -30,5 +30,5 @@ steps:
     inputs:
       ConnectionType: 'AzureRM'
       azureSubscription: 'azureConnection'
-      WebAppName: $(TestWebAppName)
+      WebAppName: $(WebAppName)
       packageForLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
