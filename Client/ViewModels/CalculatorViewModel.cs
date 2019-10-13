@@ -28,7 +28,7 @@ namespace Elle.Client.ViewModels
 
         protected void AddExpression() => Calculator.AddExpression();
 
-        protected string Name => Calculator.Name;
+        protected string? Name => Calculator.Name;
 
         protected void RemoveExpression(int index) => Calculator.RemoveExpression(index);
 

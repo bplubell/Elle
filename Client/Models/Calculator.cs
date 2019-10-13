@@ -1,5 +1,4 @@
 using DynamicExpresso;
-using System;
 using System.Collections.Generic;
 
 namespace Elle.Client.Models

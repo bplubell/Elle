@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <LangVersion>8.0</LangVersion>
-    <NullableContextOptions>enable</NullableContextOptions>
+    <Nullable>enable</Nullable>
     <RazorLangVersion>3.0</RazorLangVersion>
     <!-- Means that reflection works with System.Math, making more functions available for the expressions! -->
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
