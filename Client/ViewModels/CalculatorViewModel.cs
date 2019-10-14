@@ -34,6 +34,14 @@ namespace Elle.Client.ViewModels
             }
         }
 
+        protected async Task Save()
+        {
+            if (Storage != null)
+            {
+                await Storage.SaveCalculatorAsync(Calculator);
+            }
+        }
+
         protected List<Expression> Expressions
         {
             get => Calculator.Expressions;

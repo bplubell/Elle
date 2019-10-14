@@ -1,6 +1,5 @@
 using Blazor.Extensions.Storage;
 using Elle.Client.Models;
-using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,10 +16,24 @@ namespace Elle.Client.DataAccess
             _localStorage = localStorage;
         }
 
-        public async Task<IReadOnlyList<Calculator>> LoadCalculatorsAsync()
+        public async Task<IReadOnlyList<Calculator>> LoadCalculatorsAsync() => await _localStorage.GetItem<Calculator[]>(_storageKey) ?? _sampleCalculators;
+
+        public async Task SaveCalculatorAsync(Calculator calculator)
         {
-            Calculator[] calculators = await _localStorage.GetItem<Calculator[]>(_storageKey) ?? new Calculator[] { };
-            return calculators.Concat(_sampleCalculators).ToList();
+            List<Calculator> calculators = (await LoadCalculatorsAsync()).ToList();
+            
+            int existingIndex = calculators.FindIndex(c => c.Name == calculator.Name);
+
+            if (existingIndex >= 0)
+            {
+                calculators[existingIndex] = calculator;
+            }
+            else
+            {
+                calculators.Add(calculator);
+            }
+
+            await SaveCalculatorsAsync(calculators);
         }
 
         public async Task SaveCalculatorsAsync(IList<Calculator> calculators)
@@ -34,7 +47,7 @@ namespace Elle.Client.DataAccess
             return calculators.FirstOrDefault(s => s.Name == id);
         }
 
-        private readonly List<Calculator> _sampleCalculators = new List<Calculator>() {
+        private readonly Calculator[] _sampleCalculators = new Calculator[] {
             new Calculator() {
                 Name = "Simple",
                 Expressions = new List<Expression>() {
