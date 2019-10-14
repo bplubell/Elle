@@ -28,6 +28,12 @@ namespace Elle.Client.DataAccess
             await _localStorage.SetItem<Calculator[]>(_storageKey, calculators.ToArray());
         }
 
+        public async Task<Calculator?> GetCalculatorById(string id)
+        {
+            IReadOnlyList<Calculator> calculators = await LoadCalculatorsAsync();
+            return calculators.FirstOrDefault(s => s.Name == id);
+        }
+
         private readonly List<Calculator> _sampleCalculators = new List<Calculator>() {
             new Calculator() {
                 Name = "Simple",

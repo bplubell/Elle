@@ -3,21 +3,35 @@ using System.Linq;
 using System.Collections.Generic;
 using Elle.Client.Models;
 using DynamicExpresso;
+using System.Threading.Tasks;
 
 namespace Elle.Client.ViewModels
 {
     public class CalculatorViewModel : ComponentBase
     {
-        [Parameter]
-        public Calculator Calculator { private get; set; } = new Calculator();
+        protected Calculator Calculator { get; set; } = new Calculator();
+        
+        [Inject]
+        protected IStorage? Storage { get; private set; }
 
-        public CalculatorViewModel()
+        protected override async Task OnParametersSetAsync()
         {
-        }
-
-        public CalculatorViewModel(Calculator calculator)
-        {
-            Calculator = calculator;
+            if (Storage != null && Id != null)
+            {
+                Calculator? calculator = await Storage.GetCalculatorById(Id);
+                if (calculator != null)
+                {
+                    Calculator = calculator;
+                }
+                else
+                {
+                    // TODO Show 404
+                }
+            }
+            else
+            {
+                // TODO Show error
+            }
         }
 
         protected List<Expression> Expressions
@@ -28,11 +42,14 @@ namespace Elle.Client.ViewModels
 
         protected void AddExpression() => Calculator.AddExpression();
 
-        protected string? Name
+        protected string Name
         {
             get => Calculator.Name;
             set => Calculator.Name = value;
         }
+
+        [Parameter]
+        public string? Id { private get; set; }
 
         protected void RemoveExpression(int index) => Calculator.RemoveExpression(index);
 
@@ -45,7 +62,5 @@ namespace Elle.Client.ViewModels
             return (!string.IsNullOrWhiteSpace(name)
                 && Expressions.Count(ex => ex.Name == name) == 1);
         }
-
-
     }
 }

@@ -14,7 +14,7 @@ namespace Elle.Client.Models
             Expressions = new List<Expression>();
         }
 
-        public string? Name { get; set; }
+        public string Name { get; set; } = "New";
 
         public void RemoveExpression(int index)
         {
