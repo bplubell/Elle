@@ -8,8 +8,6 @@ namespace Elle.Client.ViewModels
 {
     public class IndexViewModel : ComponentBase
     {
-        private bool _collapseNavMenu = true;
-
         protected override async Task OnInitializedAsync()
         {
             if (Storage != null)
@@ -60,8 +58,6 @@ namespace Elle.Client.ViewModels
         [Inject]
         protected IStorage? Storage { get; private set; }
 
-        protected string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
-
         protected void RemoveCalculator(Calculator calculator)
         {
             Calculators.Remove(calculator);
@@ -90,11 +86,6 @@ namespace Elle.Client.ViewModels
                     // TODO Log error loading, maybe even let the user know
                 }
             }
-        }
-
-        protected void ToggleNavMenu()
-        {
-            _collapseNavMenu = !_collapseNavMenu;
         }
     }
 }

@@ -1,40 +1,6 @@
 ﻿@page "/"
 @inherits Elle.Client.ViewModels.IndexViewModel
 
-<div class="sidebar">
-    <div class="top-row pl-4 navbar navbar-dark">
-        <a class="navbar-brand" href="">
-            <div class="app-title">
-                <img src="Elle-white.svg" class="app-title">
-                Elle
-            </div>
-        </a>
-        <button class="navbar-toggler" @onclick="@ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-
-    <div class="@NavMenuCssClass" @onclick="@ToggleNavMenu">
-        <ul class="nav flex-column">
-            @foreach (var item in Calculators)
-            {
-                <li class="nav-item px-3 col">
-                    <div class="nav-link @(ActiveCalculator == item ? "active" : null)" @onclick="@(() => ActivateCalculator(item))">
-                        <span class="oi oi-calculator" aria-hidden="true"></span>
-                        <span class="d-block text-truncate col">@item.Name</span>
-                    </div>
-                </li>
-            }
-            <li class="nav-item px-3">
-                <div class="nav-link" @onclick="@(AddCalculator)">
-                    <span class="oi oi-plus" aria-hidden="true"></span>
-                    <span class="d-block text-truncate col">New calculator</span>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
-
 <div class="main">
     <div class="content px-4">
 
