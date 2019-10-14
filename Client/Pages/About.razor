@@ -7,9 +7,34 @@
 <ul>
     <li>Variable names cannot have spaces</li>
     <li>Variable names are case sensitive</li>
-    <li>Only simple operations are supported (+, -, *, /, Math.Pow())</li>
     <li>Results are only calculated when you click "Solve"</li>
     <li>"Save" puts the expressions into your local browser storage</li>
     <li>"Clear" removes all expressions, but does not save the change</li>
     <li>Deleting a calculator does not delete it from local storage; save to persist the change</li>
+    <li>Supported math functions (see <a href="https://docs.microsoft.com/en-us/dotnet/api/system.math?view=netcore-3.0#methods">.NET docs</a> for usage details):</li>
 </ul>
+
+<ul style="list-style: none;">
+    @foreach (string member in GetMathMemberNames())
+    {
+        <li>@member</li>
+    }
+</ul>
+
+@code
+{
+    private readonly string[] _mathMembersToIgnore = new string[] {
+        "Equals",
+        "GetHashCode",
+        "GetType",
+        "ToString",
+    };
+
+    private IEnumerable<string> GetMathMemberNames() =>
+        typeof(System.Math)
+        .GetMembers()
+        .Select(s => s.Name)
+        .Where(s => !_mathMembersToIgnore.Contains(s))
+        .Distinct()
+        .OrderBy(s => s);
+}
