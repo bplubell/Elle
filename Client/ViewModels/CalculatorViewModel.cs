@@ -42,6 +42,15 @@ namespace Elle.Client.ViewModels
             }
         }
 
+        protected async Task Delete()
+        {
+            if (Storage != null)
+            {
+                await Storage.DeleteCalculator(Calculator.Name);
+                NavigationManager?.NavigateTo("/");
+            }
+        }
+
         protected List<Expression> Expressions
         {
             get => Calculator.Expressions;
@@ -58,6 +67,9 @@ namespace Elle.Client.ViewModels
 
         [Parameter]
         public string? Id { private get; set; }
+
+        [Inject]
+        public NavigationManager? NavigationManager { get; set; }
 
         protected void RemoveExpression(int index) => Calculator.RemoveExpression(index);
 

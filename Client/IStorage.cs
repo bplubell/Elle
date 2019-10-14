@@ -8,6 +8,8 @@ namespace Elle.Client
 {
     public interface IStorage
     {
+        Task DeleteCalculator(string id);
+
         Task<IReadOnlyList<Calculator>> LoadCalculatorsAsync();
         
         Task<Calculator?> GetCalculatorById(string id);
