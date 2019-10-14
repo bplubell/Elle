@@ -16,12 +16,7 @@ namespace Elle.Client.ViewModels
             {
                 try
                 {
-                    IReadOnlyList<Calculator> calculators = await Storage.LoadCalculatorsAsync();
-                    if (calculators != null)
-                    {
-                        Calculators.RemoveAll(c => calculators.Any(s => s.Name == c.Name));
-                        Calculators.AddRange(calculators);
-                    }
+                    Calculators = (await Storage.LoadCalculatorsAsync()).ToList();
                 }
                 catch (System.Exception e)
                 {
@@ -31,7 +26,18 @@ namespace Elle.Client.ViewModels
                 }
             }
 
-            ActivateCalculator(Calculators.FirstOrDefault());
+
+            Calculator calculatorToActivate = Calculators.FirstOrDefault();
+
+            if (calculatorToActivate == null)
+            {
+                AddCalculator();
+            }
+            else
+            {
+                ActivateCalculator(calculatorToActivate);
+            }
+
         }
 
         protected void ActivateCalculator(Calculator calculator)
@@ -49,25 +55,7 @@ namespace Elle.Client.ViewModels
             ActivateCalculator(newCalculator);
         }
 
-        protected List<Calculator> Calculators = new List<Calculator>() {
-            new Calculator() {
-                Name = "Simple",
-                Expressions = new List<Expression>() {
-                    new Expression() { Name = "a", Value = "3" },
-                    new Expression() { Name = "b", Value = "4" },
-                    new Expression() { Name = "c", Value = "2 * a + b" },
-                }
-            },
-            new Calculator() {
-                Name = "Circle info",
-                Expressions = new List<Expression>() {
-                    new Expression() { Name = "diameter", Value = "3" },
-                    new Expression() { Name = "radius", Value = "diameter / 2" },
-                    new Expression() { Name = "perimeter", Value = "diameter * Math.PI" },
-                    new Expression() { Name = "area", Value = "Math.PI * Math.Pow(radius, 2)" },
-                }
-            },
-        };
+        protected List<Calculator> Calculators = new List<Calculator>();
 
         [Inject]
         protected IStorage? Storage { get; private set; }
