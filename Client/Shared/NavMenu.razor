@@ -1,0 +1,67 @@
+@using Elle.Client.Models
+@inject IStorage Storage
+
+<div class="sidebar">
+    <div class="top-row pl-4 navbar navbar-dark">
+        <a class="navbar-brand" href="">
+            <div class="app-title">
+                <img src="Elle-white.svg" class="app-title">
+                Elle
+            </div>
+        </a>
+        <button class="navbar-toggler" @onclick="@ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+
+    <div class="@NavMenuCssClass" @onclick="@ToggleNavMenu">
+        <ul class="nav flex-column">
+            @foreach (var item in Calculators)
+            {
+                <li class="nav-item px-3 col">
+                    <div class="nav-link">
+                        <span class="oi oi-calculator" aria-hidden="true"></span>
+                        <span class="d-block text-truncate col">@item.Name</span>
+                    </div>
+                </li>
+            }
+            <li class="nav-item px-3">
+                <div class="nav-link">
+                    <span class="oi oi-plus" aria-hidden="true"></span>
+                    <span class="d-block text-truncate col">New calculator</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@code
+{
+    private bool _collapseNavMenu = true;
+
+    protected string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        _collapseNavMenu = !_collapseNavMenu;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Storage != null)
+        {
+            try
+            {
+                Calculators = (await Storage.LoadCalculatorsAsync()).ToList();
+            }
+            catch (System.Exception e)
+            {
+                System.Console.WriteLine("Something went wrong trying to load calculators from storage.");
+                System.Console.WriteLine(e);
+                // TODO Log error loading, maybe even let the user know
+            }
+        }
+    }
+
+    private List<Calculator> Calculators = new List<Calculator>();
+}
