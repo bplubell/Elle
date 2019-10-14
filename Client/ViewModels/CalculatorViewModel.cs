@@ -25,7 +25,7 @@ namespace Elle.Client.ViewModels
                 }
                 else
                 {
-                    // TODO Show 404
+                    Calculator = new Calculator() { Name = Id };
                 }
             }
             else
