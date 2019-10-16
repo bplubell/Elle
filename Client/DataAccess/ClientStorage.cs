@@ -37,6 +37,12 @@ namespace Elle.Client.DataAccess
             await SaveCalculatorsAsync(calculators);
         }
 
+        public async Task<Calculator?> GetCalculatorById(int id)
+        {
+            IReadOnlyList<Calculator> calculators = await LoadCalculatorsAsync();
+            return calculators.FirstOrDefault(c => c.Id == id);
+        }
+
         public async Task<IReadOnlyList<Calculator>> LoadCalculatorsAsync() => await _localStorage.GetItem<Calculator[]>(_storageKey) ?? _sampleCalculators;
 
         public async Task UpdateCalculatorAsync(Calculator calculator)
@@ -60,12 +66,6 @@ namespace Elle.Client.DataAccess
         private async Task SaveCalculatorsAsync(IList<Calculator> calculators)
         {
             await _localStorage.SetItem<Calculator[]>(_storageKey, calculators.ToArray());
-        }
-
-        public async Task<Calculator?> GetCalculatorById(int id)
-        {
-            IReadOnlyList<Calculator> calculators = await LoadCalculatorsAsync();
-            return calculators.FirstOrDefault(c => c.Id == id);
         }
 
         private readonly Calculator[] _sampleCalculators = new Calculator[] {

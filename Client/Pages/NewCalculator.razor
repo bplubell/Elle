@@ -11,6 +11,8 @@
 
     private Models.Calculator _calculator = new Models.Calculator() { Name = "New calculator" };
 
+    private async Task Delete() => NavigationManager?.NavigateTo($"/");
+
     private async Task Save()
     {
         if (Storage != null)
@@ -19,6 +21,4 @@
             NavigationManager?.NavigateTo($"/calculator/{id}");
         }
     }
-
-    private async Task Delete() => NavigationManager?.NavigateTo($"/");
 }

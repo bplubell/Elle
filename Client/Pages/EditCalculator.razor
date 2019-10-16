@@ -6,10 +6,10 @@
 <Calculator Calculator="@Calculator" Save="@Save" Delete="@Delete" />
 
 @code {
+    private Models.Calculator? Calculator;
+
     [Parameter]
     public int Id { get; set; }
-
-    private Models.Calculator? Calculator;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -30,14 +30,6 @@
         }
     }
 
-    private async Task Save()
-    {
-        if (Storage != null && Calculator != null)
-        {
-            await Storage.UpdateCalculatorAsync(Calculator);
-        }
-    }
-
     private async Task Delete()
     {
         if (Storage != null && Calculator != null)
@@ -45,6 +37,14 @@
             // TODO Replace `Calculator.Name` with `Calculator.Id`
             await Storage.DeleteCalculator(Calculator.Name);
             NavigationManager?.NavigateTo("/");
+        }
+    }
+
+    private async Task Save()
+    {
+        if (Storage != null && Calculator != null)
+        {
+            await Storage.UpdateCalculatorAsync(Calculator);
         }
     }
 }

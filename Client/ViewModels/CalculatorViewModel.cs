@@ -14,11 +14,11 @@ namespace Elle.Client.ViewModels
         public Calculator? Calculator { get; set; }
         
         [Parameter]
-        public Func<Task>? Save { get; set; }
-        
-        [Parameter]
         public Func<Task>? Delete { get; set; }
 
+        [Parameter]
+        public Func<Task>? Save { get; set; }
+        
         protected List<Expression> Expressions
         {
             get => Calculator?.Expressions ?? new List<Expression>();
@@ -28,8 +28,6 @@ namespace Elle.Client.ViewModels
                     Calculator.Expressions = value;
             }
         }
-
-        protected void AddExpression() => Calculator?.AddExpression();
 
         public string Name
         {
@@ -41,20 +39,23 @@ namespace Elle.Client.ViewModels
             }
         }
 
-        protected void OnDelete() => Delete?.Invoke();
-
-        protected void OnSave() => Save?.Invoke();
-
-        protected void RemoveExpression(int index) => Calculator?.RemoveExpression(index);
+        protected void AddExpression() => Calculator?.AddExpression();
 
         protected void Clear() => Calculator?.Clear();
-
-        protected void Solve() => Calculator?.Solve();
 
         protected bool ExpressionNameIsValid(string name)
         {
             return (!string.IsNullOrWhiteSpace(name)
                 && Expressions.Count(ex => ex.Name == name) == 1);
         }
+    
+        protected void OnDelete() => Delete?.Invoke();
+
+        protected void OnSave() => Save?.Invoke();
+
+        protected void RemoveExpression(int index) => Calculator?.RemoveExpression(index);
+
+        protected void Solve() => Calculator?.Solve();
+
     }
 }

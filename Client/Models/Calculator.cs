@@ -5,15 +5,15 @@ namespace Elle.Client.Models
 {
     public class Calculator
     {
+        public List<Expression> Expressions { get; set; } = new List<Expression>();
+
         public int Id { get; set; }
 
-        public List<Expression> Expressions { get; set; } = new List<Expression>();
+        public string Name { get; set; } = "New";
 
         public void AddExpression() => Expressions.Add(new Expression());
 
         public void Clear() => Expressions = new List<Expression>();
-
-        public string Name { get; set; } = "New";
 
         public void RemoveExpression(int index) => Expressions.RemoveAt(index);
 
