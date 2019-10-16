@@ -16,6 +16,8 @@ namespace Elle.Client.DataAccess
             _localStorage = localStorage;
         }
 
+        public async Task Clear() => await _localStorage.RemoveItem(_storageKey);
+
         public async Task<int> CreateCalculatorAsync(Calculator calculator)
         {
             List<Calculator> calculators = (await LoadCalculatorsAsync()).ToList();

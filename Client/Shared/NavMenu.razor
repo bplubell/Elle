@@ -40,6 +40,11 @@
                     <span class="d-block text-truncate col">About</span>
                 </NavLink>
             </li>
+            <li class="nav-item px-3">
+                <a class="nav-link" @onclick="@Delete" href="">
+                    <span class="d-block text-truncate col">Reset calculators</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
@@ -70,4 +75,12 @@
     }
 
     private List<Calculator> Calculators = new List<Calculator>();
+
+    private async Task Delete()
+    {
+        if (Storage != null)
+        {
+            await Storage.Clear();
+        }
+    }
 }
