@@ -5,6 +5,8 @@ namespace Elle.Client.Models
 {
     public class Calculator
     {
+        public int Id { get; set; }
+
         public List<Expression> Expressions { get; set; } = new List<Expression>();
 
         public void AddExpression() => Expressions.Add(new Expression());

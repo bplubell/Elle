@@ -1,0 +1,50 @@
+﻿@page "/calculator/{Id:int}"
+@using Elle.Client.Components
+@inject IStorage Storage
+@inject NavigationManager NavigationManager
+
+<Calculator Calculator="@Calculator" Save="@Save" Delete="@Delete" />
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Models.Calculator? Calculator;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Storage == null)
+        {
+            // TODO Show error about missing storage
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            Calculator = await Storage.GetCalculatorById(Id);
+        }
+
+        if (Calculator == null)
+        {
+            // TODO Should probably show 404 instead
+            NavigationManager.NavigateTo("/calculator/new");
+        }
+    }
+
+    private async Task Save()
+    {
+        if (Storage != null && Calculator != null)
+        {
+            await Storage.UpdateCalculatorAsync(Calculator);
+        }
+    }
+
+    private async Task Delete()
+    {
+        if (Storage != null && Calculator != null)
+        {
+            // TODO Replace `Calculator.Name` with `Calculator.Id`
+            await Storage.DeleteCalculator(Calculator.Name);
+            NavigationManager?.NavigateTo("/");
+        }
+    }
+}

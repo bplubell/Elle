@@ -1,0 +1,27 @@
+﻿@page "/calculator/new"
+@using Elle.Client.Components
+@inject IStorage Storage
+@inject NavigationManager NavigationManager
+
+<Calculator Calculator="@_calculator" Save="@Save" Delete="@Delete" />
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private Models.Calculator _calculator = new Models.Calculator() { Name = "New calculator" };
+
+    private async Task Save()
+    {
+        if (Storage != null)
+        {
+            int id = await Storage.CreateCalculatorAsync(_calculator);
+            NavigationManager?.NavigateTo($"/calculator/{id}");
+        }
+    }
+
+    private async Task Delete()
+    {
+        NavigationManager?.NavigateTo($"/");
+    }
+}

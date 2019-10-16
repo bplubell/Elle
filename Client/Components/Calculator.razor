@@ -1,5 +1,4 @@
-﻿@page "/calculator/{Id}"
-@using Elle.Client.Models
+﻿@using Elle.Client.Models
 @inherits Elle.Client.ViewModels.CalculatorViewModel
 
 <div class="row align-items-center">
@@ -9,7 +8,7 @@
 <div class="row align-items-center mb-3">
     <span class="oi oi-pencil text-muted col-auto"></span>
     <input class="form-control col border-0" type="text" @bind="@Name" />
-    <button class="btn btn-outline-danger border-0 ml-2" @onclick="@Delete">
+    <button class="btn btn-outline-danger border-0 ml-2" @onclick="@OnDelete">
         <span class="oi oi-trash d-flex align-items-center"></span>
     </button>
 </div>
@@ -20,7 +19,7 @@
             <span class="oi oi-play-circle align-items-center"></span>
             Solve
         </button>
-        <button class="btn btn-dark ml-2" @onclick="@Save">
+        <button class="btn btn-dark ml-2" @onclick="@OnSave">
             <span class="oi oi-hard-drive align-items-center"></span>
             Save
         </button>
