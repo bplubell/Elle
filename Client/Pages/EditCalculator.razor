@@ -1,4 +1,4 @@
-﻿@page "/calculator/{Id:int}"
+@page "/calculator/{Id:int}"
 @using Elle.Client.Components
 @inject IStorage Storage
 @inject NavigationManager NavigationManager
@@ -34,8 +34,7 @@
     {
         if (Storage != null && Calculator != null)
         {
-            // TODO Replace `Calculator.Name` with `Calculator.Id`
-            await Storage.DeleteCalculator(Calculator.Name);
+            await Storage.DeleteCalculator(Calculator.Id);
             NavigationManager?.NavigateTo("/");
         }
     }

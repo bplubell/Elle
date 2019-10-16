@@ -19,7 +19,9 @@ namespace Elle.Client.DataAccess
         public async Task<int> CreateCalculatorAsync(Calculator calculator)
         {
             List<Calculator> calculators = (await LoadCalculatorsAsync()).ToList();
-            int newId = calculators.Max(c => c.Id) + 1;
+
+            int newId = calculators.Count > 0 ? calculators.Max(c => c.Id) + 1 : 1;
+
             calculator.Id = newId;
             calculators.Add(calculator);
 
@@ -28,11 +30,11 @@ namespace Elle.Client.DataAccess
             return newId;
         }
 
-        public async Task DeleteCalculator(string id)
+        public async Task DeleteCalculator(int id)
         {
             List<Calculator> calculators = (await LoadCalculatorsAsync()).ToList();
 
-            calculators.RemoveAll(c => c.Name == id);
+            calculators.RemoveAll(c => c.Id == id);
 
             await SaveCalculatorsAsync(calculators);
         }
@@ -48,7 +50,7 @@ namespace Elle.Client.DataAccess
         public async Task UpdateCalculatorAsync(Calculator calculator)
         {
             List<Calculator> calculators = (await LoadCalculatorsAsync()).ToList();
-            
+
             int existingIndex = calculators.FindIndex(c => c.Id == calculator.Id);
 
             if (existingIndex >= 0)
