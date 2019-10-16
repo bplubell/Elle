@@ -4,78 +4,52 @@ using System.Collections.Generic;
 using Elle.Client.Models;
 using DynamicExpresso;
 using System.Threading.Tasks;
+using System;
 
 namespace Elle.Client.ViewModels
 {
     public class CalculatorViewModel : ComponentBase
     {
-        protected Calculator Calculator { get; set; } = new Calculator();
+        [Parameter]
+        public Calculator? Calculator { get; set; }
         
-        [Inject]
-        protected IStorage? Storage { get; private set; }
-
-        protected override async Task OnParametersSetAsync()
-        {
-            if (Storage != null && Id != null)
-            {
-                Calculator? calculator = await Storage.GetCalculatorById(Id);
-                if (calculator != null)
-                {
-                    Calculator = calculator;
-                }
-                else
-                {
-                    Calculator = new Calculator() { Name = Id };
-                }
-            }
-            else
-            {
-                // TODO Show error
-            }
-        }
-
-        protected async Task Save()
-        {
-            if (Storage != null)
-            {
-                await Storage.SaveCalculatorAsync(Calculator);
-            }
-        }
-
-        protected async Task Delete()
-        {
-            if (Storage != null)
-            {
-                await Storage.DeleteCalculator(Calculator.Name);
-                NavigationManager?.NavigateTo("/");
-            }
-        }
+        [Parameter]
+        public Func<Task>? Save { get; set; }
+        
+        [Parameter]
+        public Func<Task>? Delete { get; set; }
 
         protected List<Expression> Expressions
         {
-            get => Calculator.Expressions;
-            set => Calculator.Expressions = value;
+            get => Calculator?.Expressions ?? new List<Expression>();
+            set
+            {
+                if (Calculator != null)
+                    Calculator.Expressions = value;
+            }
         }
 
-        protected void AddExpression() => Calculator.AddExpression();
+        protected void AddExpression() => Calculator?.AddExpression();
 
-        protected string Name
+        public string Name
         {
-            get => Calculator.Name;
-            set => Calculator.Name = value;
+            get => Calculator?.Name ?? string.Empty;
+            set
+            {
+                if (Calculator != null)
+                    Calculator.Name = value;
+            }
         }
 
-        [Parameter]
-        public string? Id { private get; set; }
+        protected void OnDelete() => Delete?.Invoke();
 
-        [Inject]
-        public NavigationManager? NavigationManager { get; set; }
+        protected void OnSave() => Save?.Invoke();
 
-        protected void RemoveExpression(int index) => Calculator.RemoveExpression(index);
+        protected void RemoveExpression(int index) => Calculator?.RemoveExpression(index);
 
-        protected void Clear() => Calculator.Clear();
+        protected void Clear() => Calculator?.Clear();
 
-        protected void Solve() => Calculator.Solve();
+        protected void Solve() => Calculator?.Solve();
 
         protected bool ExpressionNameIsValid(string name)
         {
