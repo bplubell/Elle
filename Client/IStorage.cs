@@ -14,8 +14,8 @@ namespace Elle.Client
         
         Task<Calculator?> GetCalculatorById(int id);
 
-        Task SaveCalculatorsAsync(IList<Calculator> calculators);
+        Task UpdateCalculatorAsync(Calculator calculator);
         
-        Task SaveCalculatorAsync(Calculator calculator);
+        Task<int> CreateCalculatorAsync(Calculator calculator);
     }
 }

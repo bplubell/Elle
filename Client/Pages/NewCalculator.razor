@@ -15,8 +15,8 @@
     {
         if (Storage != null)
         {
-            await Storage.SaveCalculatorAsync(_calculator);
-            NavigationManager?.NavigateTo($"/calculator/{_calculator.Name}");
+            int id = await Storage.CreateCalculatorAsync(_calculator);
+            NavigationManager?.NavigateTo($"/calculator/{id}");
         }
     }
 

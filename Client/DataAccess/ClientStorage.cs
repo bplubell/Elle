@@ -16,6 +16,18 @@ namespace Elle.Client.DataAccess
             _localStorage = localStorage;
         }
 
+        public async Task<int> CreateCalculatorAsync(Calculator calculator)
+        {
+            List<Calculator> calculators = (await LoadCalculatorsAsync()).ToList();
+            int newId = calculators.Max(c => c.Id) + 1;
+            calculator.Id = newId;
+            calculators.Add(calculator);
+
+            await SaveCalculatorsAsync(calculators);
+
+            return newId;
+        }
+
         public async Task DeleteCalculator(string id)
         {
             List<Calculator> calculators = (await LoadCalculatorsAsync()).ToList();
@@ -27,11 +39,11 @@ namespace Elle.Client.DataAccess
 
         public async Task<IReadOnlyList<Calculator>> LoadCalculatorsAsync() => await _localStorage.GetItem<Calculator[]>(_storageKey) ?? _sampleCalculators;
 
-        public async Task SaveCalculatorAsync(Calculator calculator)
+        public async Task UpdateCalculatorAsync(Calculator calculator)
         {
             List<Calculator> calculators = (await LoadCalculatorsAsync()).ToList();
             
-            int existingIndex = calculators.FindIndex(c => c.Name == calculator.Name);
+            int existingIndex = calculators.FindIndex(c => c.Id == calculator.Id);
 
             if (existingIndex >= 0)
             {
@@ -39,13 +51,13 @@ namespace Elle.Client.DataAccess
             }
             else
             {
-                calculators.Add(calculator);
+                throw new System.Exception($"Calculator with ID {calculator.Id} not found!");
             }
 
             await SaveCalculatorsAsync(calculators);
         }
 
-        public async Task SaveCalculatorsAsync(IList<Calculator> calculators)
+        private async Task SaveCalculatorsAsync(IList<Calculator> calculators)
         {
             await _localStorage.SetItem<Calculator[]>(_storageKey, calculators.ToArray());
         }
