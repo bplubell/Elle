@@ -1,0 +1,9 @@
+﻿@page "/calculator/{Id}"
+@using Elle.Client.Components
+
+<Calculator Id="@Id" />
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+}
