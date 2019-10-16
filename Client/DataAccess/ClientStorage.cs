@@ -50,14 +50,15 @@ namespace Elle.Client.DataAccess
             await _localStorage.SetItem<Calculator[]>(_storageKey, calculators.ToArray());
         }
 
-        public async Task<Calculator?> GetCalculatorById(string id)
+        public async Task<Calculator?> GetCalculatorById(int id)
         {
             IReadOnlyList<Calculator> calculators = await LoadCalculatorsAsync();
-            return calculators.FirstOrDefault(s => s.Name == id);
+            return calculators.FirstOrDefault(c => c.Id == id);
         }
 
         private readonly Calculator[] _sampleCalculators = new Calculator[] {
             new Calculator() {
+                Id = 1,
                 Name = "Simple",
                 Expressions = new List<Expression>() {
                     new Expression() { Name = "a", Value = "3" },
@@ -66,6 +67,7 @@ namespace Elle.Client.DataAccess
                 }
             },
             new Calculator() {
+                Id = 2,
                 Name = "Circle info",
                 Expressions = new List<Expression>() {
                     new Expression() { Name = "diameter", Value = "3" },

@@ -12,7 +12,7 @@ namespace Elle.Client
 
         Task<IReadOnlyList<Calculator>> LoadCalculatorsAsync();
         
-        Task<Calculator?> GetCalculatorById(string id);
+        Task<Calculator?> GetCalculatorById(int id);
 
         Task SaveCalculatorsAsync(IList<Calculator> calculators);
         

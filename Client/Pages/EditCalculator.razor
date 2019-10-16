@@ -1,4 +1,4 @@
-﻿@page "/calculator/{Id}"
+﻿@page "/calculator/{Id:int}"
 @using Elle.Client.Components
 @inject IStorage Storage
 @inject NavigationManager NavigationManager
@@ -7,7 +7,7 @@
 
 @code {
     [Parameter]
-    public string? Id { get; set; }
+    public int Id { get; set; }
 
     private Models.Calculator? Calculator;
 
@@ -18,12 +18,12 @@
             // TODO Show error about missing storage
             NavigationManager.NavigateTo("/");
         }
-        else if (Id != null)
+        else
         {
             Calculator = await Storage.GetCalculatorById(Id);
         }
 
-        if (Id == null || Calculator == null)
+        if (Calculator == null)
         {
             // TODO Should probably show 404 instead
             NavigationManager.NavigateTo("/calculator/new");
