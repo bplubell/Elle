@@ -11,17 +11,11 @@ namespace Elle.Client.Models
 
         public void AddExpression() => Expressions.Add(new Expression());
 
-        public void Clear()
-        {
-            Expressions = new List<Expression>();
-        }
+        public void Clear() => Expressions = new List<Expression>();
 
         public string Name { get; set; } = "New";
 
-        public void RemoveExpression(int index)
-        {
-            Expressions.RemoveAt(index);
-        }
+        public void RemoveExpression(int index) => Expressions.RemoveAt(index);
 
         public void Solve()
         {
