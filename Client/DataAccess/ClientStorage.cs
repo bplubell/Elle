@@ -1,5 +1,6 @@
 using Blazor.Extensions.Storage;
 using Elle.Client.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,13 @@ namespace Elle.Client.DataAccess
             _localStorage = localStorage;
         }
 
-        public async Task Clear() => await _localStorage.RemoveItem(_storageKey);
+        public event EventHandler? CalculatorsUpdated;
+
+        public async Task Clear()
+        {
+            await _localStorage.RemoveItem(_storageKey);
+            CalculatorsUpdated?.Invoke(this, null);
+        }
 
         public async Task<int> CreateCalculatorAsync(Calculator calculator)
         {
@@ -29,6 +36,8 @@ namespace Elle.Client.DataAccess
 
             await SaveCalculatorsAsync(calculators);
 
+            CalculatorsUpdated?.Invoke(this, null);
+
             return newId;
         }
 
@@ -39,6 +48,8 @@ namespace Elle.Client.DataAccess
             calculators.RemoveAll(c => c.Id == id);
 
             await SaveCalculatorsAsync(calculators);
+
+            CalculatorsUpdated?.Invoke(this, null);
         }
 
         public async Task<Calculator?> GetCalculatorById(int id)
@@ -65,6 +76,8 @@ namespace Elle.Client.DataAccess
             }
 
             await SaveCalculatorsAsync(calculators);
+
+            CalculatorsUpdated?.Invoke(this, null);
         }
 
         private async Task SaveCalculatorsAsync(IList<Calculator> calculators)

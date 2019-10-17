@@ -61,17 +61,10 @@
     {
         if (Storage != null)
         {
-            try
-            {
-                Calculators = (await Storage.LoadCalculatorsAsync()).ToList();
-            }
-            catch (System.Exception e)
-            {
-                System.Console.WriteLine("Something went wrong trying to load calculators from storage.");
-                System.Console.WriteLine(e);
-                // TODO Log error loading, maybe even let the user know
-            }
+            Storage.CalculatorsUpdated += UpdateCalculatorList;
         }
+
+        await UpdateCalculatorList();
     }
 
     private List<Calculator> Calculators = new List<Calculator>();
@@ -83,4 +76,28 @@
             await Storage.Clear();
         }
     }
+
+    private async void UpdateCalculatorList(object sender, EventArgs args)
+    {
+        await UpdateCalculatorList();
+    }
+
+    private async Task UpdateCalculatorList()
+    {
+        if (Storage != null)
+        {
+            try
+            {
+                Calculators = (await Storage.LoadCalculatorsAsync()).ToList();
+                StateHasChanged();
+            }
+            catch (System.Exception e)
+            {
+                System.Console.WriteLine("Something went wrong trying to load calculators from storage.");
+                System.Console.WriteLine(e);
+                // TODO Log error loading, maybe even let the user know
+            }
+        }
+    }
+    
 }

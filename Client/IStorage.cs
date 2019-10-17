@@ -1,7 +1,6 @@
 ﻿using Elle.Client.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Elle.Client
@@ -19,5 +18,7 @@ namespace Elle.Client
         Task UpdateCalculatorAsync(Calculator calculator);
         
         Task<int> CreateCalculatorAsync(Calculator calculator);
+
+        event EventHandler CalculatorsUpdated;
     }
 }

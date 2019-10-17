@@ -10,7 +10,7 @@ namespace Elle.Client
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddStorage();
-            services.AddTransient(typeof(IStorage), typeof(ClientStorage));
+            services.AddScoped(typeof(IStorage), typeof(ClientStorage));
         }
 
         public void Configure(IComponentsApplicationBuilder app)
